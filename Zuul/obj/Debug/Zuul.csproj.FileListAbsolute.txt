@@ -1,0 +1,14 @@
+C:\Users\rik\alfacollege\TextAdventure\Zuul\Zuul\Zuul\bin\Debug\Zuul.exe.config
+C:\Users\rik\alfacollege\TextAdventure\Zuul\Zuul\Zuul\bin\Debug\Zuul.exe
+C:\Users\rik\alfacollege\TextAdventure\Zuul\Zuul\Zuul\bin\Debug\Zuul.pdb
+C:\Users\rik\alfacollege\TextAdventure\Zuul\Zuul\Zuul\obj\Debug\Zuul.csprojAssemblyReference.cache
+C:\Users\rik\alfacollege\TextAdventure\Zuul\Zuul\Zuul\obj\Debug\Zuul.csproj.CoreCompileInputs.cache
+C:\Users\rik\alfacollege\TextAdventure\Zuul\Zuul\Zuul\obj\Debug\Zuul.exe
+C:\Users\rik\alfacollege\TextAdventure\Zuul\Zuul\Zuul\obj\Debug\Zuul.pdb
+C:\Users\proffesioneel\Downloads\Zuul\Zuul\obj\Debug\Zuul.exe
+C:\Users\proffesioneel\Downloads\Zuul\Zuul\obj\Debug\Zuul.pdb
+C:\Users\proffesioneel\Downloads\Zuul\Zuul\obj\Debug\Zuul.csprojAssemblyReference.cache
+C:\Users\proffesioneel\Downloads\Zuul\Zuul\obj\Debug\Zuul.csproj.CoreCompileInputs.cache
+C:\Users\proffesioneel\Downloads\Zuul\Zuul\bin\Debug\Zuul.exe.config
+C:\Users\proffesioneel\Downloads\Zuul\Zuul\bin\Debug\Zuul.exe
+C:\Users\proffesioneel\Downloads\Zuul\Zuul\bin\Debug\Zuul.pdb
