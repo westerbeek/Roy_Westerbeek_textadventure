@@ -13,6 +13,7 @@ namespace Zuul
                 
             parser = new Parser();
             user = new Player();
+            user.setstats();
             createRooms();
            
 		}
@@ -20,7 +21,7 @@ namespace Zuul
 		private void createRooms()
 		{
           
-            Room outside, theatre, pub, lab, office;
+            Room outside, theatre, pub, lab, office,roof,basement;
 
 			// create the rooms
 			outside = new Room("outside the main entrance of the university");
@@ -28,7 +29,8 @@ namespace Zuul
 			pub = new Room("in the campus pub");
 			lab = new Room("in a computing lab");
 			office = new Room("in the computing admin office");
-
+            roof = new Room("on the roof of the complex.");
+            basement = new Room("in the basement of the building");
 			// initialise room exits
 			outside.setExit("east", theatre);
 			outside.setExit("south", lab);
@@ -37,13 +39,18 @@ namespace Zuul
 			theatre.setExit("west", outside);
 
 			pub.setExit("east", outside);
+            pub.setExit("down", basement);
 
-			lab.setExit("north", outside);
+            lab.setExit("north", outside);
 			lab.setExit("east", office);
 
 			office.setExit("west", lab);
+            office.setExit("up", roof);
 
-			user.currentRoom = outside;  // start game outside
+            basement.setExit("up", pub);
+            roof.setExit("down", office);
+
+            user.currentRoom = outside;  // start game outside
 		}
 
 
@@ -148,9 +155,20 @@ namespace Zuul
 			if (nextRoom == null) {
 				Console.WriteLine("There is no door to "+direction+"!");
 			} else {
-                user.currentRoom = nextRoom;
-				Console.WriteLine(user.currentRoom.getLongDescription());
-			}
+                user.damage(5);
+                if (user.dead != true)
+                {
+                    Console.WriteLine("You're really bad at walking and trip,\nyour current health is " + user.health + ".");
+
+                    user.currentRoom = nextRoom;
+                    Console.WriteLine(user.currentRoom.getLongDescription());
+                }
+                else
+                {
+                    Console.WriteLine("You seem to have died.\nPlease type quit in order to quit the game.");
+
+                }
+            }
 		}
 
         private void Look()

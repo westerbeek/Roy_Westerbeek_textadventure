@@ -4,11 +4,16 @@ namespace Zuul
 {
     public class Player
     {
-        private int health;
+        public int health;
         private int maxhealth;
         public Room currentRoom;
         public bool dead;
 
+        public void setstats()
+        {
+            maxhealth = 100;
+            health = maxhealth;
+        }
 
         public void heal(int _amountheal)
         {
