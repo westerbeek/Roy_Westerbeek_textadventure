@@ -5,17 +5,22 @@ namespace Zuul
 	public class Game
 	{
 		private Parser parser;
-		private Room currentRoom;
+		private Player user;
 
 		public Game ()
 		{
-			createRooms();
-			parser = new Parser();
+
+                
+            parser = new Parser();
+            user = new Player();
+            createRooms();
+           
 		}
 
 		private void createRooms()
 		{
-			Room outside, theatre, pub, lab, office;
+          
+            Room outside, theatre, pub, lab, office;
 
 			// create the rooms
 			outside = new Room("outside the main entrance of the university");
@@ -38,7 +43,7 @@ namespace Zuul
 
 			office.setExit("west", lab);
 
-			currentRoom = outside;  // start game outside
+			user.currentRoom = outside;  // start game outside
 		}
 
 
@@ -69,7 +74,7 @@ namespace Zuul
 			Console.WriteLine("Zuul is a new, incredibly boring adventure game.");
 			Console.WriteLine("Type 'help' if you need help.");
 			Console.WriteLine();
-			Console.WriteLine(currentRoom.getLongDescription());
+			Console.WriteLine(user.currentRoom.getLongDescription());
 		}
 
 		/**
@@ -138,23 +143,21 @@ namespace Zuul
 			string direction = command.getSecondWord();
 
 			// Try to leave current room.
-			Room nextRoom = currentRoom.getExit(direction);
+			Room nextRoom = user.currentRoom.getExit(direction);
 
 			if (nextRoom == null) {
 				Console.WriteLine("There is no door to "+direction+"!");
 			} else {
-				currentRoom = nextRoom;
-				Console.WriteLine(currentRoom.getLongDescription());
+                user.currentRoom = nextRoom;
+				Console.WriteLine(user.currentRoom.getLongDescription());
 			}
 		}
 
         private void Look()
         {
-
-
             // Try to leave current room.
 
-            Console.WriteLine(currentRoom.description);
+            Console.WriteLine(user.currentRoom.description);
          
            
         }

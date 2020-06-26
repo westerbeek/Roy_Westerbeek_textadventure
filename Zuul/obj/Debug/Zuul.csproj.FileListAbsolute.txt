@@ -12,3 +12,10 @@ C:\Users\proffesioneel\Downloads\Zuul\Zuul\obj\Debug\Zuul.csproj.CoreCompileInpu
 C:\Users\proffesioneel\Downloads\Zuul\Zuul\bin\Debug\Zuul.exe.config
 C:\Users\proffesioneel\Downloads\Zuul\Zuul\bin\Debug\Zuul.exe
 C:\Users\proffesioneel\Downloads\Zuul\Zuul\bin\Debug\Zuul.pdb
+C:\Users\proffesioneel\Documents\GitHub\TxtAdventure_Roy_Westerbeek\Roy_Westerbeek_textadventure\Zuul\bin\Debug\Zuul.exe.config
+C:\Users\proffesioneel\Documents\GitHub\TxtAdventure_Roy_Westerbeek\Roy_Westerbeek_textadventure\Zuul\bin\Debug\Zuul.exe
+C:\Users\proffesioneel\Documents\GitHub\TxtAdventure_Roy_Westerbeek\Roy_Westerbeek_textadventure\Zuul\bin\Debug\Zuul.pdb
+C:\Users\proffesioneel\Documents\GitHub\TxtAdventure_Roy_Westerbeek\Roy_Westerbeek_textadventure\Zuul\obj\Debug\Zuul.csprojAssemblyReference.cache
+C:\Users\proffesioneel\Documents\GitHub\TxtAdventure_Roy_Westerbeek\Roy_Westerbeek_textadventure\Zuul\obj\Debug\Zuul.csproj.CoreCompileInputs.cache
+C:\Users\proffesioneel\Documents\GitHub\TxtAdventure_Roy_Westerbeek\Roy_Westerbeek_textadventure\Zuul\obj\Debug\Zuul.exe
+C:\Users\proffesioneel\Documents\GitHub\TxtAdventure_Roy_Westerbeek\Roy_Westerbeek_textadventure\Zuul\obj\Debug\Zuul.pdb
