@@ -4,6 +4,7 @@ namespace Zuul
 {
     public class Player
     {
+        public Inventory inv;
         public int health;
         private int maxhealth;
         public Room currentRoom;
@@ -13,6 +14,8 @@ namespace Zuul
         {
             maxhealth = 100;
             health = maxhealth;
+            inv = new Inventory();
+            inv.slots = new Item[5];
         }
 
         public void heal(int _amountheal)
