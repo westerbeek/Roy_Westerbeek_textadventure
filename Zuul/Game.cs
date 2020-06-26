@@ -117,7 +117,9 @@ namespace Zuul
                 case "take":
                     Take(command);
                     break;
-
+                case "drop":
+                    Drop(command);
+                    break;
                 case "quit":
                     wantToQuit = true;
                     break;
@@ -172,7 +174,7 @@ namespace Zuul
                 }
                 else
                 {
-                    if (nextRoom.roominv.slots[0].name == null)
+                    if (nextRoom.roominv.slots[0].name == null || nextRoom.roominv.slots[0].name == "")
                     {
                         Console.WriteLine("You're really bad at walking and trip,\nyour current health is " + user.health + ".");
                         user.currentRoom = nextRoom;
@@ -213,12 +215,12 @@ namespace Zuul
                 {
                     for (int x = 0; x < user.inv.slots.Length; x++)
                     {
-                        if (user.inv.slots[x] == null)
+                        if (user.inv.slots[x].name == "" || user.inv.slots[x].name == null)
                         {
 
-                            user.inv.slots[x] = user.currentRoom.roominv.slots[i];
+                            user.inv.slots[x].name = user.currentRoom.roominv.slots[i].name;
 
-                            user.currentRoom.roominv.slots[i].name = null;
+                            user.currentRoom.roominv.slots[i].name = "";
                             Console.WriteLine("You picked up '" + itemname + "'.");
 
                             break;
@@ -230,13 +232,55 @@ namespace Zuul
                 else
                 {
 
-                    Console.WriteLine("No such item could be found.");
+                    Console.WriteLine("item: "+itemname+" could be found.");
+                    break;
                 }
 
             }
            
         }
 
+
+        private void Drop(Command command)
+        {
+            if (!command.hasSecondWord())
+            {
+                // if there is no second word, we don't know where to go...
+                Console.WriteLine("drop what?");
+                return;
+            }
+            string itemname = command.getSecondWord();
+
+            for (int x = 0; x < user.inv.slots.Length; x++)
+            {
+
+                if (user.inv.slots[x].name == itemname && user.inv.slots != null)
+                {
+                    for (int i = 0; i < user.currentRoom.roominv.slots.Length; i++)
+                    {
+
+                        if (user.currentRoom.roominv.slots[i].name == "" || user.currentRoom.roominv.slots[i].name == null)//if the given itemname is the same as one in the room inv
+                        {
+                            user.currentRoom.roominv.slots[i].name = user.inv.slots[x].name;
+                            Console.WriteLine("You dropped "+itemname+" on the floor.");
+
+                            user.inv.slots[x].name = "";
+                            break;
+                        }
+                        break;
+                    }
+                    break;
+                }
+                else
+                {
+
+                    Console.WriteLine("You don't have "+itemname+ " in your inventory");
+                    break;
+                }
+            }
+          
+
+        }
     }
 
 
