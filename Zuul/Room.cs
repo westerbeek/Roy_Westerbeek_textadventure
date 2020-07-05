@@ -16,9 +16,6 @@ namespace Zuul
 		public Room(string description)
 		{
             roominv = new Inventory();
-            roominv.slots[0] = new Item();
-            roominv.slots[1] = new Item();
-            roominv.slots[2] = new Item();
 
             this.description = description;
 			exits = new Dictionary<string, Room>();

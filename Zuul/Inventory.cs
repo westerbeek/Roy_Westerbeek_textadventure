@@ -1,27 +1,41 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Zuul
 {
     public class Inventory
     {
-        public Item[] slots= new Item[3];
-
+        public List<Item> slots = new List<Item>();
         public int max_weight = 0;
+
+
+        public void InstanceAdd(Item item)
+        {
+            
+                slots.Add(item);
+              
+        }
 
         public Item look4Item(string itemname)
         {
-            for (int i = 0; i < slots.Length; i++)
+            for (int i = slots.Count - 1; i >= 0; i--)
             {
-                if (itemname == slots[i].name)
+
+                if (itemname == slots[i].name && slots[i] != null)
                 {
                     return slots[i];
+                }
+                else
+                {
+                    Console.WriteLine("something went wrong with" + slots[i].name);
+
                 }
             }
             return null;
         }
         public Item findemptyslot()
         {
-            for (int i = 0; i < slots.Length; i++)
+            for (int i = slots.Count - 1; i >= 0; i--)
             {
                 if (slots[i].name == null || slots[i].name == "")
                 {

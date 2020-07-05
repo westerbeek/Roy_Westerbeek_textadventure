@@ -23,7 +23,8 @@ namespace Zuul
         {
 
             Room outside, theatre, pub, lab, office, roof, basement;
-
+            Potion potion = new Potion("potion", 0, "");
+            
             // create the rooms
             outside = new Room("outside the main entrance of the university");
             theatre = new Room("in a lecture theatre");
@@ -50,7 +51,7 @@ namespace Zuul
             office.setExit("up", roof);
 
             basement.setExit("up", pub);
-            basement.roominv.slots[0].name = "potion";
+            basement.roominv.slots.Add(potion);
 
             roof.setExit("down", office);
 
@@ -174,7 +175,7 @@ namespace Zuul
                 }
                 else
                 {
-                    if (nextRoom.roominv.slots[0].name == null || nextRoom.roominv.slots[0].name == "")
+                    if (nextRoom.roominv.slots == null)
                     {
                         Console.WriteLine("You're really bad at walking and trip,\nyour current health is " + user.health + ".");
                         user.currentRoom = nextRoom;
@@ -183,7 +184,10 @@ namespace Zuul
                     else
                     {
                         Console.WriteLine("You're really bad at walking and trip,\nyour current health is " + user.health + ".");
-                        Console.WriteLine("There seems to be a " + nextRoom.roominv.slots[0].name + " in this room, \nmaybe you want 'take' it with you!");
+                        for (int i = nextRoom.roominv.slots.Count - 1; i >= 0; i--)
+                        {
+                            Console.WriteLine("There seems to be a " + nextRoom.roominv.slots[0].name + " in this room, \nmaybe you want 'take' it with you!");
+                        }
                         user.currentRoom = nextRoom;
                         Console.WriteLine(user.currentRoom.getLongDescription());
                     }
@@ -209,11 +213,10 @@ namespace Zuul
             if (user.currentRoom.roominv.look4Item(itemname) != null)
             {
 
-                if (user.inv.findemptyslot().name == null || user.inv.findemptyslot().name == "")
-                {
+            
                     user.currentRoom.roominv.Switchitems(user.inv, itemname);
                     Console.WriteLine("you grabbed " + itemname + ".");
-                }
+                
             }
             else
             {
@@ -223,7 +226,6 @@ namespace Zuul
             }
 
         }
-
 
         private void Drop(Command command)
         {
@@ -239,11 +241,10 @@ namespace Zuul
             if (user.inv.look4Item(itemname) != null)
             {
 
-                if(user.currentRoom.roominv.findemptyslot().name == null || user.currentRoom.roominv.findemptyslot().name == "")
-                {
+               
                     user.inv.Switchitems(user.currentRoom.roominv, itemname);
                     Console.WriteLine("you dropped " +itemname+".");
-                }
+                
             }
             else
             {

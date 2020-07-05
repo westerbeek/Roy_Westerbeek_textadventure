@@ -15,12 +15,7 @@ namespace Zuul
             maxhealth = 100;
             health = maxhealth;
             inv = new Inventory();
-            inv.slots = new Item[5];
-            inv.slots[0] = new Item();
-            inv.slots[1] = new Item();
-            inv.slots[2] = new Item();
-            inv.slots[3] = new Item();
-            inv.slots[4] = new Item();
+            inv.max_weight = 5;
         }
 
         public void heal(int _amountheal)
