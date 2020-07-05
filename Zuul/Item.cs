@@ -4,9 +4,9 @@ namespace Zuul
 {
     public class Item
     {
-        public string name;
-        public int weight;
-        public string type;
+        public string name { get; set; }
+        public int weight { get; set; }
+        public string type { get; set; }
 
         public Item(string _name, int _weight, string _type)
         {

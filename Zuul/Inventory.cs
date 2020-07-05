@@ -46,17 +46,10 @@ namespace Zuul
         }
         public void Switchitems(Inventory otherinv, string itemname)
         {
-            otherinv.findemptyslot().name = look4Item(itemname).name;
-            emptyitem(look4Item(itemname));
+            otherinv.slots.Add(look4Item(itemname));
+            this.slots.Remove(look4Item(itemname));
             
-
-
         }
-        public void emptyitem(Item item2empty)
-        {
-            item2empty.name = "";
-            item2empty.weight = 0;
-            item2empty.type = "";
-        }
+    
     }
 }
