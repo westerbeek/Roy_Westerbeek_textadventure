@@ -23,8 +23,12 @@ namespace Zuul
         {
 
             Room outside, theatre, pub, lab, office, roof, basement;
-            Potion potion = new Potion("potion", 0, "");
-            
+            //items
+            Potion potion = new Potion("potion", "\nA nice looking flask with liquid inside.\n", 2, "potion");
+            Boulder boulder = new Boulder("boulder", "\nA massive rock,\nfor it's size it's quite light.\nYou suspect that it's a theatre prop.\n", 5, "useless");
+            Broken_Glass broken_glass = new Broken_Glass("broken_glass", "\nA broken glass shard,\nbe careful it might be sharp.\n", 1, "broken glass");
+            Key key = new Key("key", "\nIt's a Key, It can be used to open various things\n", 1, "key");
+
             // create the rooms
             outside = new Room("outside the main entrance of the university");
             theatre = new Room("in a lecture theatre");
@@ -37,9 +41,10 @@ namespace Zuul
             outside.setExit("east", theatre);
             outside.setExit("south", lab);
             outside.setExit("west", pub);
+            outside.roominv.slots.Add(broken_glass);
 
             theatre.setExit("west", outside);
-
+            theatre.roominv.slots.Add(boulder);
             pub.setExit("east", outside);
             pub.setExit("down", basement);
 
@@ -49,13 +54,18 @@ namespace Zuul
 
             office.setExit("west", lab);
             office.setExit("up", roof);
+            office.roomname = "office";
+            office.roominv.slots.Add(key);
 
             basement.setExit("up", pub);
             basement.roominv.slots.Add(potion);
 
             roof.setExit("down", office);
+            roof.roomname = "roof";
+            roof.locked = true;
 
             user.currentRoom = outside;  // start game outside
+
         }
 
 
@@ -69,7 +79,8 @@ namespace Zuul
             // Enter the main command loop.  Here we repeatedly read commands and
             // execute them until the game is over.
             bool finished = false;
-            while (!finished) {
+            while (!finished)
+            {
                 Command command = parser.getCommand();
                 finished = processCommand(command);
             }
@@ -84,7 +95,7 @@ namespace Zuul
             Console.WriteLine();
             Console.WriteLine("Welcome to Zuul!");
             Console.WriteLine("Zuul is a new, incredibly boring adventure game.");
-            Console.WriteLine("Type 'help' if you need help.");
+            Console.WriteLine("Type 'help' if you need help.\n");
             Console.WriteLine();
             Console.WriteLine(user.currentRoom.getLongDescription());
         }
@@ -98,13 +109,15 @@ namespace Zuul
         {
             bool wantToQuit = false;
 
-            if (command.isUnknown()) {
-                Console.WriteLine("I don't know what you mean...");
+            if (command.isUnknown())
+            {
+                Console.WriteLine("\nI don't know what you mean...\n");
                 return false;
             }
 
             string commandWord = command.getCommandWord();
-            switch (commandWord) {
+            switch (commandWord)
+            {
                 case "help":
                     printHelp();
                     break;
@@ -120,6 +133,9 @@ namespace Zuul
                     break;
                 case "drop":
                     Drop(command);
+                    break;
+                case "use":
+                    Use(command);
                     break;
                 case "quit":
                     wantToQuit = true;
@@ -140,7 +156,7 @@ namespace Zuul
         private void printHelp()
         {
             Console.WriteLine("You are lost. You are alone.");
-            Console.WriteLine("You wander around at the university.");
+            Console.WriteLine("You wander around at the university.\n");
             Console.WriteLine();
             Console.WriteLine("Your command words are:");
             parser.showCommands();
@@ -152,7 +168,8 @@ namespace Zuul
 	     */
         private void goRoom(Command command)
         {
-            if (!command.hasSecondWord()) {
+            if (!command.hasSecondWord())
+            {
                 // if there is no second word, we don't know where to go...
                 Console.WriteLine("Go where?");
                 return;
@@ -163,35 +180,53 @@ namespace Zuul
             // Try to leave current room.
             Room nextRoom = user.currentRoom.getExit(direction);
 
-            if (nextRoom == null) {
-                Console.WriteLine("There is no door to " + direction + "!");
-            } else {
-
-                user.damage(5);
-                if (user.dead == true)
+            if (nextRoom == null)
+            {
+                Console.WriteLine("There is no door to " + direction + "!\n");
+            }
+            else
+            {
+                if (user.inv.overweight == false)
                 {
-                    Console.WriteLine("You seem to have died.\nPlease type quit in order to quit the game.");
-
-                }
-                else
-                {
-                    if (nextRoom.roominv.slots == null)
+                    if (nextRoom.locked != true)
                     {
-                        Console.WriteLine("You're really bad at walking and trip,\nyour current health is " + user.health + ".");
-                        user.currentRoom = nextRoom;
-                        Console.WriteLine(user.currentRoom.getLongDescription());
+                        user.damage(5);
+                        if (user.dead == true)
+                        {
+                            Console.WriteLine("\nYou seem to have died.\nPlease type quit in order to quit the game.\n");
+
+                        }
+                        else
+                        {
+                            if (nextRoom.roominv.slots == null)
+                            {
+                                Console.WriteLine("------------------\nYou're really bad at walking and trip,\nyour current health is " + user.health + ".\n");
+                                user.currentRoom = nextRoom;
+                                Console.WriteLine(user.currentRoom.getLongDescription());
+                            }
+                            else
+                            {
+                                Console.WriteLine("------------------\nYou're really bad at walking and trip,\nyour current health is " + user.health + ".\n");
+                                for (int i = nextRoom.roominv.slots.Count - 1; i >= 0; i--)
+                                {
+                                    Console.WriteLine("There seems to be a " + nextRoom.roominv.slots[i].name + " in this room, \nmaybe you want 'take' it with you!\n");
+                                }
+                                user.currentRoom = nextRoom;
+                                Console.WriteLine(user.currentRoom.getLongDescription());
+                            }
+                        }
                     }
                     else
                     {
-                        Console.WriteLine("You're really bad at walking and trip,\nyour current health is " + user.health + ".");
-                        for (int i = nextRoom.roominv.slots.Count - 1; i >= 0; i--)
-                        {
-                            Console.WriteLine("There seems to be a " + nextRoom.roominv.slots[0].name + " in this room, \nmaybe you want 'take' it with you!");
-                        }
-                        user.currentRoom = nextRoom;
-                        Console.WriteLine(user.currentRoom.getLongDescription());
+                        Console.WriteLine("The Door to the " + nextRoom.roomname + " Seems to be locked, you should find a Key and 'use' it here");
+
                     }
                 }
+                else
+                {
+                    Console.WriteLine("\nYou are carrying too much!\nYou should 'drop' something to continue.\n");
+                }
+
             }
         }
 
@@ -205,7 +240,7 @@ namespace Zuul
             if (!command.hasSecondWord())
             {
                 // if there is no second word, we don't know where to go...
-                Console.WriteLine("Take what?");
+                Console.WriteLine("------------------\nTake what?\n");
                 return;
             }
             string itemname = command.getSecondWord();
@@ -213,15 +248,25 @@ namespace Zuul
             if (user.currentRoom.roominv.look4Item(itemname) != null)
             {
 
-            
+                if (user.currentRoom.roominv.look4Item(itemname).type == "broken glass")
+                {
+                    Console.WriteLine("------------------\nyou tried to grab " + itemname + ".\nbut you cut yourself failing to pick it up.\n\nYou take 10 damage.\nYour current health is " + user.health + ".\n");
+                    user.damage(10);
+
+                    Console.WriteLine(user.currentRoom.getLongDescription());
+                }
+                else
+                {
                     user.currentRoom.roominv.Switchitems(user.inv, itemname);
-                    Console.WriteLine("you grabbed " + itemname + ".");
-                
+                    Console.WriteLine("------------------\nyou grabbed " + itemname + ".\n");
+                    Console.WriteLine(user.currentRoom.getLongDescription());
+                }
             }
             else
             {
 
-                Console.WriteLine("You don't have " + itemname + " in your inventory");
+                Console.WriteLine("------------------\nYou don't have " + itemname + " in your inventory\n");
+                Console.WriteLine(user.currentRoom.getLongDescription());
 
             }
 
@@ -232,7 +277,7 @@ namespace Zuul
             if (!command.hasSecondWord())
             {
                 // if there is no second word, we don't know where to go...
-                Console.WriteLine("drop what?");
+                Console.WriteLine("------------------\ndrop what?\n");
                 return;
             }
             string itemname = command.getSecondWord();
@@ -241,22 +286,69 @@ namespace Zuul
             if (user.inv.look4Item(itemname) != null)
             {
 
-               
-                    user.inv.Switchitems(user.currentRoom.roominv, itemname);
-                    Console.WriteLine("you dropped " +itemname+".");
-                
+
+                user.inv.Switchitems(user.currentRoom.roominv, itemname);
+                Console.WriteLine("------------------\nyou dropped " + itemname + ".\n");
+                Console.WriteLine(user.currentRoom.getLongDescription());
             }
             else
             {
 
-                Console.WriteLine("You don't have " + itemname + " in your inventory");
-                
+                Console.WriteLine("------------------\nYou don't have " + itemname + " in your inventory\n");
+                Console.WriteLine(user.currentRoom.getLongDescription());
             }
-            
-          
+
+
 
         }
-    }
- 
+        private void Use(Command command)
+        {
+            if (!command.hasSecondWord())
+            {
+                // if there is no second word, we don't know where to go...
+                Console.WriteLine("------------------\nUse what?\n");
+                return;
+            }
+            string itemname = command.getSecondWord();
 
+
+            if (user.inv.look4Item(itemname) != null)
+            {
+                if (user.inv.look4Item(itemname).type == "key")
+                {
+                    Console.WriteLine("------------------\nfound key");
+                    if (user.currentRoom.roomname == "office")
+                    {
+
+                        Console.WriteLine("------------------\nis in office");
+                        user.inv.look4Item(itemname).Use();
+                        user.inv.slots.Remove(user.inv.look4Item(itemname));
+                        user.inv.checkweight();
+
+                        user.currentRoom.getExit("up").locked = false;
+                    }
+                }
+                else if (user.inv.look4Item(itemname).type == "potion")
+                {
+                    user.inv.look4Item(itemname).Use();
+                    user.inv.slots.Remove(user.inv.look4Item(itemname));
+                    user.inv.checkweight();
+                    user.heal(25);
+                    Console.WriteLine("\nYour current health is " + user.health + ".\n");
+                }else if (user.inv.look4Item(itemname).type == "useless")
+                {
+                    user.inv.look4Item(itemname).Use();
+                    
+                }
+                else
+                {
+
+                    Console.WriteLine("------------------\nYou don't have " + itemname + " in your inventory\n");
+                    Console.WriteLine(user.currentRoom.getLongDescription());
+                }
+
+            }
+        }
+
+    }
 }

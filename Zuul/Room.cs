@@ -4,8 +4,10 @@ namespace Zuul
 {
 	public class Room
 	{
+        public string roomname;
         public Inventory roominv;
 		public string description;
+        public bool locked;
 		private Dictionary<string, Room> exits; // stores exits of this room.
 
 		/**

@@ -43,10 +43,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Key.cs" />
     <Compile Include="Command.cs" />
     <Compile Include="CommandLibrary.cs" />
     <Compile Include="Inventory.cs" />
+    <Compile Include="Broken_Glass.cs" />
     <Compile Include="Potion.cs" />
+    <Compile Include="Boulder.cs" />
     <Compile Include="Item.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Game.cs" />
