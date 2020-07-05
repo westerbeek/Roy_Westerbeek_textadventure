@@ -183,7 +183,7 @@ namespace Zuul
                     else
                     {
                         Console.WriteLine("You're really bad at walking and trip,\nyour current health is " + user.health + ".");
-                        Console.WriteLine("There seems to be a " + nextRoom.roominv.slots[0].name + " in this room, \nmaybe you want to pick it up!");
+                        Console.WriteLine("There seems to be a " + nextRoom.roominv.slots[0].name + " in this room, \nmaybe you want 'take' it with you!");
                         user.currentRoom = nextRoom;
                         Console.WriteLine(user.currentRoom.getLongDescription());
                     }
@@ -194,10 +194,7 @@ namespace Zuul
         private void Look()
         {
             // Try to leave current room.
-
             Console.WriteLine(user.currentRoom.description);
-
-
         }
         private void Take(Command command)
         {
@@ -209,35 +206,22 @@ namespace Zuul
             }
             string itemname = command.getSecondWord();
 
-            for (int i = 0; i < user.currentRoom.roominv.slots.Length; i++)
+            if (user.currentRoom.roominv.look4Item(itemname) != null)
             {
-                if (itemname == user.currentRoom.roominv.slots[i].name)//if the given itemname is the same as one in the room inv
+
+                if (user.inv.findemptyslot().name == null || user.inv.findemptyslot().name == "")
                 {
-                    for (int x = 0; x < user.inv.slots.Length; x++)
-                    {
-                        if (user.inv.slots[x].name == "" || user.inv.slots[x].name == null)
-                        {
-
-                            user.inv.slots[x].name = user.currentRoom.roominv.slots[i].name;
-
-                            user.currentRoom.roominv.slots[i].name = "";
-                            Console.WriteLine("You picked up '" + itemname + "'.");
-
-                            break;
-                        }
-                        break;
-                    }
-                    break;
+                    user.currentRoom.roominv.Switchitems(user.inv, itemname);
+                    Console.WriteLine("you grabbed " + itemname + ".");
                 }
-                else
-                {
+            }
+            else
+            {
 
-                    Console.WriteLine("item: "+itemname+" could be found.");
-                    break;
-                }
+                Console.WriteLine("You don't have " + itemname + " in your inventory");
 
             }
-           
+
         }
 
 
@@ -251,37 +235,27 @@ namespace Zuul
             }
             string itemname = command.getSecondWord();
 
-            for (int x = 0; x < user.inv.slots.Length; x++)
+
+            if (user.inv.look4Item(itemname) != null)
             {
 
-                if (user.inv.slots[x].name == itemname && user.inv.slots != null)
+                if(user.currentRoom.roominv.findemptyslot().name == null || user.currentRoom.roominv.findemptyslot().name == "")
                 {
-                    for (int i = 0; i < user.currentRoom.roominv.slots.Length; i++)
-                    {
-
-                        if (user.currentRoom.roominv.slots[i].name == "" || user.currentRoom.roominv.slots[i].name == null)//if the given itemname is the same as one in the room inv
-                        {
-                            user.currentRoom.roominv.slots[i].name = user.inv.slots[x].name;
-                            Console.WriteLine("You dropped "+itemname+" on the floor.");
-
-                            user.inv.slots[x].name = "";
-                            break;
-                        }
-                        break;
-                    }
-                    break;
-                }
-                else
-                {
-
-                    Console.WriteLine("You don't have "+itemname+ " in your inventory");
-                    break;
+                    user.inv.Switchitems(user.currentRoom.roominv, itemname);
+                    Console.WriteLine("you dropped " +itemname+".");
                 }
             }
+            else
+            {
+
+                Console.WriteLine("You don't have " + itemname + " in your inventory");
+                
+            }
+            
           
 
         }
     }
-
+ 
 
 }
