@@ -193,7 +193,7 @@ namespace Zuul
                         user.damage(5);
                         if (user.dead == true)
                         {
-                            Console.WriteLine("\nYou seem to have died.\nPlease type quit in order to quit the game.\n");
+                            Console.WriteLine("\nYou seem to have died.\n better luck next time\n");
 
                         }
                         else
@@ -225,6 +225,7 @@ namespace Zuul
                 else
                 {
                     Console.WriteLine("\nYou are carrying too much!\nYou should 'drop' something to continue.\n");
+                    
                 }
 
             }
